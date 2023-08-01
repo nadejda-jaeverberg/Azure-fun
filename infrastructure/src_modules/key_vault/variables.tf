@@ -18,6 +18,10 @@ variable "secrets_list" {
   description = "List of secret names in key vault"
 }
 
+variable "adf_object_id" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
   description = "List of tags"

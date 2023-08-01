@@ -3,6 +3,7 @@ resource "azurerm_data_factory" "adf" {
   location                        = var.location_name
   resource_group_name             = var.resource_grp_name
   managed_virtual_network_enabled = true
+//  public_network_enabled          = false
 //  github_configuration = {
 //    account_name    = var.github_account_name
 //    branch_name     = var.branch_name
@@ -10,6 +11,9 @@ resource "azurerm_data_factory" "adf" {
 //    repository_name = var.repository_name
 //    root_folder     = var.root_folder
 //  }
+  identity {
+    type = "SystemAssigned"
+  }
   dynamic "global_parameter" {
     for_each     = var.global_parameters
     content {
@@ -22,9 +26,9 @@ resource "azurerm_data_factory" "adf" {
 }
 
 resource "azurerm_data_factory_integration_runtime_azure" "az_runtime" {
-  name                    = "demoRuntime"
+  name                    = "AutoResolveIntegrationRuntime"
   data_factory_id         = azurerm_data_factory.adf.id
-  location                = var.location_name
+  location                = "AutoResolve"
   virtual_network_enabled = true
   time_to_live_min        = 0
 }

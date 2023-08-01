@@ -22,3 +22,9 @@ module "demo_storage_acc" {
   tags                 = var.tags
   depends_on           = [module.demo_rg_group]
 }
+
+resource "azurerm_role_assignment" "adf_data_contributor" {
+  scope                = module.demo_storage_acc.storage_account_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = module.adf.adf_object_id
+}

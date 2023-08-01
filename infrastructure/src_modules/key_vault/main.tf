@@ -8,7 +8,6 @@ resource "azurerm_key_vault" "keyvault" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
-
   sku_name = "standard"
 
   tags     = var.tags
@@ -32,6 +31,17 @@ resource "azurerm_key_vault" "keyvault" {
     storage_permissions = [
       "Get",
     ]
+  }
+  access_policy {
+    object_id = var.adf_object_id
+    tenant_id = data.azurerm_client_config.current.tenant_id
+
+    secret_permissions = [
+      "Get",
+      "List"
+    ]
+
+//    storage_permissions = []
   }
 }
 
