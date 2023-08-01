@@ -1,10 +1,3 @@
-locals {
-  demo_resource_grp_name = "${upper(var.environment)}myDemoResourceGroup"
-  demo_location = "UK South"
-  demo_st_acc_name = "stdemoaccountname"
-  demo_containers = ["data-extracts"]
-}
-
 module "demo_rg_group" {
   source            = "./src_modules/resource_group"
   resource_grp_name = local.demo_resource_grp_name

@@ -1,11 +1,3 @@
-locals {
-  adf_name = "${var.environment}datafactorydemouknj"
-  global_parameters = [
-    { name = "storageaccount", value = module.demo_storage_acc.storage_account_name, type = "String" },
-    { name = "datacontainer", value = "data-extracts", type = "String" }
-  ]
-}
-
 module "adf" {
   source            = "./src_modules/data_factory"
   adf_name          = local.adf_name
