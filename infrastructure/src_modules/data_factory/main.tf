@@ -1,7 +1,8 @@
 resource "azurerm_data_factory" "adf" {
-  name                = var.adf_name
-  location            = var.location_name
-  resource_group_name = var.resource_grp_name
+  name                            = var.adf_name
+  location                        = var.location_name
+  resource_group_name             = var.resource_grp_name
+  managed_virtual_network_enabled = true
 //  github_configuration = {
 //    account_name    = var.github_account_name
 //    branch_name     = var.branch_name
@@ -18,4 +19,12 @@ resource "azurerm_data_factory" "adf" {
     }
   }
   tags           = var.tags
+}
+
+resource "azurerm_data_factory_integration_runtime_azure" "az_runtime" {
+  name                    = "demoRuntime"
+  data_factory_id         = azurerm_data_factory.adf.id
+  location                = var.location_name
+  virtual_network_enabled = true
+  time_to_live_min        = 0
 }
