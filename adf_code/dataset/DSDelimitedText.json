@@ -27,9 +27,6 @@
 				"type": "string",
 				"defaultValue": ","
 			},
-			"row_delimiter": {
-				"type": "string"
-			},
 			"encoding": {
 				"type": "string",
 				"defaultValue": "UTF-8"
@@ -77,6 +74,10 @@
 				"type": "Expression"
 			},
 			"compressionLevel": "Optimal",
+			"encodingName": {
+				"value": "@dataset().encoding",
+				"type": "Expression"
+			},
 			"escapeChar": {
 				"value": "@dataset().escape_character",
 				"type": "Expression"
