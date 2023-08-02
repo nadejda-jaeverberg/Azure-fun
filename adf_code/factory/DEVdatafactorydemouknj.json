@@ -1,0 +1,21 @@
+{
+	"name": "DEVdatafactorydemouknj",
+	"properties": {
+		"globalParameters": {
+			"datacontainer": {
+				"type": "String",
+				"value": "data-extracts"
+			},
+			"storageaccount": {
+				"type": "String",
+				"value": "stdemoaccountname"
+			}
+		}
+	},
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5d6fae65-0662-4f7f-8fba-4371d480546d",
+		"tenantId": "899a133e-a0f5-4436-b83e-ab5d2b2e6591"
+	}
+}

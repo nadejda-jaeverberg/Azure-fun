@@ -1,0 +1,25 @@
+{
+	"name": "LS-adf-to-blob",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"sasUri": "https://stdemoaccountname.blob.core.windows.net/data-extracts",
+			"sasToken": {
+				"secretName": "connectionString",
+				"store": {
+					"referenceName": "LS-adf-to-keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureKeyVaultSecret"
+			},
+			"servicePrincipalId": "",
+			"servicePrincipalKey": {
+				"type": "SecureString",
+				"value": "**********"
+			},
+			"tenant": ""
+		},
+		"annotations": []
+	}
+}
