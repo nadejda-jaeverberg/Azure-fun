@@ -1,0 +1,10 @@
+{
+	"name": "adf-dfs",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname",
+		"groupId": "dfs",
+		"fqdns": [
+			"stdemoaccountname.dfs.core.windows.net"
+		]
+	}
+}

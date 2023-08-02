@@ -1,0 +1,11 @@
+{
+	"name": "LS-adf-to-adls",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://stdemoaccountname.dfs.core.windows.net/"
+		},
+		"annotations": []
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "LS-adf-to-keyvault",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		},
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://devkeyvaultdemo.vault.azure.net/"
+		},
+		"annotations": []
+	}
+}

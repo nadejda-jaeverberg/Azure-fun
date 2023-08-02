@@ -1,0 +1,10 @@
+{
+	"name": "adf-vault",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.KeyVault/vaults/DEVkeyvaultdemo",
+		"groupId": "vault",
+		"fqdns": [
+			"devkeyvaultdemo.vault.azure.net"
+		]
+	}
+}
