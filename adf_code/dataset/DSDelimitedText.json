@@ -73,10 +73,6 @@
 				"value": "@dataset().column_delimiter",
 				"type": "Expression"
 			},
-			"rowDelimiter": {
-				"value": "@dataset().row_delimiter",
-				"type": "Expression"
-			},
 			"compressionCodec": {
 				"value": "@dataset().compression_type",
 				"type": "Expression"
