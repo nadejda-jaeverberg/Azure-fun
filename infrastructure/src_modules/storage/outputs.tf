@@ -13,3 +13,7 @@ output "storage_account_url" {
 output "storage_account_blob_url" {
   value = azurerm_storage_account.st_account.primary_blob_endpoint
 }
+
+output "storage_account_con_string" {
+  value = azurerm_storage_account.st_account.primary_connection_string
+}

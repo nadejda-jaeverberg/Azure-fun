@@ -1,5 +1,29 @@
 data "azurerm_client_config" "current" {}
 
+data "azurerm_storage_account_blob_container_sas" "sas_token" {
+  connection_string = var.storage_connection_string
+  container_name    = var.container_name
+  https_only        = true
+
+  start  = "2023-08-02"
+  expiry = "2023-08-03"
+
+  permissions {
+    read   = true
+    add    = true
+    create = true
+    write  = true
+    delete = true
+    list   = true
+  }
+
+  cache_control       = "max-age=5"
+  content_disposition = "inline"
+  content_encoding    = "deflate"
+  content_language    = "en-US"
+  content_type        = "application/json"
+}
+
 resource "azurerm_key_vault" "keyvault" {
   name                        = var.keyvault_name
   location                    = var.location_name
@@ -49,6 +73,16 @@ resource "azurerm_key_vault_secret" "kv_secret" {
   for_each     = toset( var.secrets_list )
   name         = each.key
   value        = "Value not set"
+  key_vault_id = azurerm_key_vault.keyvault.id
+
+  lifecycle {
+    ignore_changes = [ value ]
+  }
+}
+
+resource "azurerm_key_vault_secret" "kv_secret_sas_token" {
+  name         = var.sas_secret_name
+  value        = data.azurerm_storage_account_blob_container_sas.sas_token.sas
   key_vault_id = azurerm_key_vault.keyvault.id
 
   lifecycle {

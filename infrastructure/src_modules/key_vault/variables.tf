@@ -22,6 +22,18 @@ variable "adf_object_id" {
   type = string
 }
 
+variable "storage_connection_string" {
+  type = string
+}
+
+variable "container_name" {
+  type = string
+}
+
+variable "sas_secret_name" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
   description = "List of tags"

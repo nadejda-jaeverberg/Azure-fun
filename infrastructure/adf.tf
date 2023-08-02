@@ -26,7 +26,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "link-adf-blob
   name            = "LS-adf-to-blob"
   data_factory_id = module.adf.adf_id
 
-  sas_uri = "${module.demo_storage_acc.storage_account_blob_url}data-extracts"
+  sas_uri = "${module.demo_storage_acc.storage_account_blob_url}${local.data_extracts_container}"
   key_vault_sas_token {
     linked_service_name = azurerm_data_factory_linked_service_key_vault.link-adf-keyvault.name
     secret_name         = "connectionString"
