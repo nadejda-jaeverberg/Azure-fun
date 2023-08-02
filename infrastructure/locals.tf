@@ -11,6 +11,11 @@ locals {
     { name = "datacontainer", value = local.data_extracts_container, type = "String" }
   ]
 
+  github_account_name = "nadejda-jaeverberg"
+  branch_name = "main"
+  repository_name = "Azure-fun"
+  root_folder = "adf_code"
+
   demo_resource_grp_name = "${upper(var.environment)}myDemoResourceGroup"
   demo_location = "UK South"
   demo_st_acc_name = "stdemoaccountname"

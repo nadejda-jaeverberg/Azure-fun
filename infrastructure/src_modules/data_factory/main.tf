@@ -4,13 +4,13 @@ resource "azurerm_data_factory" "adf" {
   resource_group_name             = var.resource_grp_name
   managed_virtual_network_enabled = true
 //  public_network_enabled          = false
-//  github_configuration = {
-//    account_name    = var.github_account_name
-//    branch_name     = var.branch_name
-//    git_url         = "https://github.com"
-//    repository_name = var.repository_name
-//    root_folder     = var.root_folder
-//  }
+  github_configuration {
+    account_name    = var.github_account_name
+    branch_name     = var.branch_name
+    git_url         = "https://github.com"
+    repository_name = var.repository_name
+    root_folder     = var.root_folder
+  }
   identity {
     type = "SystemAssigned"
   }

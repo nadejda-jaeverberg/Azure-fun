@@ -13,26 +13,26 @@ variable "location_name" {
   description = "Name of the geolocation."
 }
 
-//variable "github_account_name" {
-//  type        = string
-//  description = "GitHub account name."
-//}
-//
-//variable "branch_name" {
-//  type = string
-//  description = "Specifies the branch of the repository to get code from"
-//  default = "main"
-//}
-//
-//variable "repository_name" {
-//  type = string
-//  description = "GitHub repository name"
-//}
-//
-//variable "root_folder" {
-//  type = string
-//  description = "Specifies the root folder within the GitHub repository"
-//}
+variable "github_account_name" {
+  type        = string
+  description = "GitHub account name."
+}
+
+variable "branch_name" {
+  type = string
+  description = "Specifies the branch of the repository to get code from"
+  default = "main"
+}
+
+variable "repository_name" {
+  type = string
+  description = "GitHub repository name"
+}
+
+variable "root_folder" {
+  type = string
+  description = "Specifies the root folder within the GitHub repository"
+}
 
 variable "global_parameters" {
   type = list(map(string))
