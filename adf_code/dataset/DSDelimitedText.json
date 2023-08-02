@@ -45,6 +45,10 @@
 			"null_value": {
 				"type": "string",
 				"defaultValue": null
+			},
+			"row_delim": {
+				"type": "string",
+				"defaultValue": "\r\n"
 			}
 		},
 		"annotations": [],
@@ -67,6 +71,10 @@
 			},
 			"columnDelimiter": {
 				"value": "@dataset().column_delimiter",
+				"type": "Expression"
+			},
+			"rowDelimiter": {
+				"value": "@dataset().row_delim",
 				"type": "Expression"
 			},
 			"compressionCodec": {
