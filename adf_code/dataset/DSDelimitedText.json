@@ -81,14 +81,7 @@
 				"value": "@dataset().compression_type",
 				"type": "Expression"
 			},
-			"compressionLevel": {
-				"value": "@dataset().compression_lvl",
-				"type": "Expression"
-			},
-			"encodingName": {
-				"value": "@dataset().encoding",
-				"type": "Expression"
-			},
+			"compressionLevel": "Optimal",
 			"escapeChar": {
 				"value": "@dataset().escape_character",
 				"type": "Expression"
