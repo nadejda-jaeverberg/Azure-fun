@@ -1,0 +1,111 @@
+{
+	"name": "DSDelimitedText",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS-adf-to-adls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"data_container": {
+				"type": "string"
+			},
+			"folder_name": {
+				"type": "string"
+			},
+			"file_name": {
+				"type": "string"
+			},
+			"compression_type": {
+				"type": "string",
+				"defaultValue": "None"
+			},
+			"compression_lvl": {
+				"type": "string",
+				"defaultValue": "Optimal"
+			},
+			"column_delimiter": {
+				"type": "string",
+				"defaultValue": ","
+			},
+			"row_delimiter": {
+				"type": "string",
+				"defaultValue": "\"\\n\""
+			},
+			"encoding": {
+				"type": "string",
+				"defaultValue": "UTF-8"
+			},
+			"quote_character": {
+				"type": "string",
+				"defaultValue": "\""
+			},
+			"escape_character": {
+				"type": "string",
+				"defaultValue": "\\"
+			},
+			"first_row_as_header": {
+				"type": "bool"
+			},
+			"null_value": {
+				"type": "string",
+				"defaultValue": null
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().folder_name",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().data_container",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "@dataset().column_delimiter",
+				"type": "Expression"
+			},
+			"rowDelimiter": {
+				"value": "@dataset().row_delimiter",
+				"type": "Expression"
+			},
+			"compressionCodec": {
+				"value": "@dataset().compression_type",
+				"type": "Expression"
+			},
+			"compressionLevel": {
+				"value": "@dataset().compression_lvl",
+				"type": "Expression"
+			},
+			"encodingName": {
+				"value": "@dataset().encoding",
+				"type": "Expression"
+			},
+			"escapeChar": {
+				"value": "@dataset().escape_character",
+				"type": "Expression"
+			},
+			"firstRowAsHeader": {
+				"value": "@dataset().first_row_as_header",
+				"type": "Expression"
+			},
+			"nullValue": {
+				"value": "@dataset().null_value",
+				"type": "Expression"
+			},
+			"quoteChar": {
+				"value": "@dataset().quote_character",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}
