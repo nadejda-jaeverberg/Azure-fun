@@ -29,7 +29,7 @@
 			},
 			"row_delimiter": {
 				"type": "string",
-				"defaultValue": "\"\\n\""
+				"defaultValue": "\\r"
 			},
 			"encoding": {
 				"type": "string",
