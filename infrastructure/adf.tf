@@ -1,11 +1,15 @@
 module "adf" {
-  source            = "./src_modules/data_factory"
-  adf_name          = local.adf_name
-  resource_grp_name = module.demo_rg_group.resource_group_name
-  location_name     = module.demo_rg_group.resource_group_location
-  global_parameters = local.global_parameters
-  tags              = var.tags
-  depends_on        = [module.demo_rg_group]
+  source              = "./src_modules/data_factory"
+  adf_name            = local.adf_name
+  resource_grp_name   = module.demo_rg_group.resource_group_name
+  location_name       = module.demo_rg_group.resource_group_location
+  global_parameters   = local.global_parameters
+  github_account_name = local.github_account_name
+  branch_name         = local.branch_name
+  repository_name     = local.repository_name
+  root_folder         = local.root_folder
+  tags                = var.tags
+  depends_on          = [module.demo_rg_group]
 }
 
 resource "azurerm_data_factory_linked_service_key_vault" "link-adf-keyvault" {
