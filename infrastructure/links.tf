@@ -21,3 +21,11 @@ resource "azurerm_data_factory_managed_private_endpoint" "adf-vault-pe" {
   subresource_name   = "vault"
   depends_on         = [module.demo_rg_group, module.adf, module.demo_storage_acc]
 }
+
+resource "azurerm_data_factory_managed_private_endpoint" "adf-sql-pe" {
+  name               = "adf-sql"
+  data_factory_id    = module.adf.adf_id
+  target_resource_id = module.sql_db_demo.sql_server_id
+  subresource_name   = "sqlServer"
+  depends_on         = [module.demo_rg_group, module.adf, module.sql_db_demo]
+}

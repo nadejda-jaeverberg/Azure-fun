@@ -36,3 +36,13 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "link-adf-blob
     secret_name         = "connectionString"
   }
 }
+
+resource "azurerm_data_factory_linked_service_azure_sql_database" "link-adf-sql" {
+  name                 = "LS-adf-to-sql"
+  data_factory_id      = module.adf.adf_id
+  use_managed_identity = true
+  key_vault_connection_string {
+    linked_service_name = azurerm_data_factory_linked_service_key_vault.link-adf-keyvault.name
+    secret_name         = "sqlConnString"
+  }
+}
