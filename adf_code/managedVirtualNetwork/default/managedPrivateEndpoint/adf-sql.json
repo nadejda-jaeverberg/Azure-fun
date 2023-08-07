@@ -2,6 +2,9 @@
 	"name": "adf-sql",
 	"properties": {
 		"privateLinkResourceId": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Sql/servers/dev-demo-sql-server",
-		"groupId": "sqlServer"
+		"groupId": "sqlServer",
+		"fqdns": [
+			"dev-demo-sql-server.database.windows.net"
+		]
 	}
 }

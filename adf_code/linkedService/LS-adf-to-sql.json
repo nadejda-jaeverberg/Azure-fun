@@ -1,19 +1,19 @@
 {
 	"name": "LS-adf-to-sql",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
-		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=dev-demo-sql-server.database.windows.net;Initial Catalog=dev-demo-sql-db;User ID=myAdminName",
-			"password": {
-				"type": "AzureKeyVaultSecret",
+			"connectionString": {
+				"secretName": "sqlConnString",
 				"store": {
 					"referenceName": "LS-adf-to-keyvault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "sqldbpass"
-			}
-		}
-	},
-	"type": "Microsoft.DataFactory/factories/linkedservices"
+				"type": "AzureKeyVaultSecret"
+			},
+			"tenant": ""
+		},
+		"annotations": []
+	}
 }
