@@ -2,6 +2,10 @@
 	"name": "DEVdatafactorydemouknj",
 	"properties": {
 		"globalParameters": {
+			"configcontainer": {
+				"type": "String",
+				"value": "configs"
+			},
 			"datacontainer": {
 				"type": "String",
 				"value": "data-extracts"
@@ -15,7 +19,7 @@
 	"location": "uksouth",
 	"identity": {
 		"type": "SystemAssigned",
-		"principalId": "751523cb-1251-48df-838a-d470c9c13de2",
+		"principalId": "d8dc2041-83e4-4b30-92f3-f4fddf1eadc0",
 		"tenantId": "899a133e-a0f5-4436-b83e-ab5d2b2e6591"
 	}
 }
