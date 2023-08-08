@@ -99,9 +99,6 @@
 			},
 			"config_folder": {
 				"type": "string"
-			},
-			"file_path": {
-				"type": "string"
 			}
 		},
 		"variables": {
