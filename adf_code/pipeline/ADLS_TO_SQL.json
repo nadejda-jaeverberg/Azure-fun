@@ -1,0 +1,114 @@
+{
+	"name": "ADLS_TO_SQL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Read_config",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DS_Json",
+						"type": "DatasetReference",
+						"parameters": {
+							"container_name": {
+								"value": "@pipeline().globalParameters.configcontainer",
+								"type": "Expression"
+							},
+							"folder_name": {
+								"value": "@pipeline().parameters.config_folder",
+								"type": "Expression"
+							},
+							"file_name": {
+								"value": "@pipeline().parameters.config_name",
+								"type": "Expression"
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "Set file_name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "file_name",
+					"value": {
+						"value": "@pipeline().parameters.file_path",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Read_config",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set file_name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Read_config').output[0].value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@activity('Read_config').output.firstRow",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"config_name": {
+				"type": "string"
+			},
+			"config_folder": {
+				"type": "string"
+			},
+			"file_path": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"file_name": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
