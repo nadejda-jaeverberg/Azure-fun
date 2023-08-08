@@ -1,0 +1,14 @@
+{
+	"configcontainer": {
+		"type": "String",
+		"value": "configs"
+	},
+	"datacontainer": {
+		"type": "String",
+		"value": "data-extracts"
+	},
+	"storageaccount": {
+		"type": "String",
+		"value": "stdemoaccountname"
+	}
+}

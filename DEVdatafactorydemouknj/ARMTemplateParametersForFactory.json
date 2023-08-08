@@ -1,0 +1,80 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DEVdatafactorydemouknj"
+		},
+		"LS-adf-to-adls_properties_typeProperties_url": {
+			"value": "https://stdemoaccountname.dfs.core.windows.net/"
+		},
+		"LS-adf-to-blob_sasUri": {
+			"value": ""
+		},
+		"LS-adf-to-blob_properties_typeProperties_sasToken_secretName": {
+			"value": "connectionString"
+		},
+		"LS-adf-to-keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://devkeyvaultdemo.vault.azure.net/"
+		},
+		"LS-adf-to-sql_properties_typeProperties_connectionString_secretName": {
+			"value": "sqlConnString"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_name": {
+			"value": "product1.json"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
+			"value": "configs"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
+			"value": "@triggerBody(). folderPath"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-blob_properties_privateLinkResourceId": {
+			"value": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-blob_properties_groupId": {
+			"value": "blob"
+		},
+		"adf-blob_properties_fqdns": {
+			"value": [
+				"stdemoaccountname.blob.core.windows.net"
+			]
+		},
+		"adf-dfs_properties_privateLinkResourceId": {
+			"value": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-dfs_properties_groupId": {
+			"value": "dfs"
+		},
+		"adf-dfs_properties_fqdns": {
+			"value": [
+				"stdemoaccountname.dfs.core.windows.net"
+			]
+		},
+		"adf-sql_properties_privateLinkResourceId": {
+			"value": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Sql/servers/dev-demo-sql-server"
+		},
+		"adf-sql_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"adf-sql_properties_fqdns": {
+			"value": [
+				"dev-demo-sql-server.database.windows.net"
+			]
+		},
+		"adf-vault_properties_privateLinkResourceId": {
+			"value": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.KeyVault/vaults/DEVkeyvaultdemo"
+		},
+		"adf-vault_properties_groupId": {
+			"value": "vault"
+		},
+		"adf-vault_properties_fqdns": {
+			"value": [
+				"devkeyvaultdemo.vault.azure.net"
+			]
+		}
+	}
+}

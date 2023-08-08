@@ -1,0 +1,197 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DEVdatafactorydemouknj"
+		},
+		"LS-adf-to-adls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stdemoaccountname.dfs.core.windows.net/"
+		},
+		"LS-adf-to-blob_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'LS-adf-to-blob'"
+		},
+		"LS-adf-to-blob_properties_typeProperties_sasToken_secretName": {
+			"type": "string",
+			"defaultValue": "connectionString"
+		},
+		"LS-adf-to-keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://devkeyvaultdemo.vault.azure.net/"
+		},
+		"LS-adf-to-sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sqlConnString"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_name": {
+			"type": "string",
+			"defaultValue": "product1.json"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
+			"type": "string",
+			"defaultValue": "configs"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
+			"type": "string",
+			"defaultValue": "@triggerBody(). folderPath"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-blob_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-blob_properties_groupId": {
+			"type": "string",
+			"defaultValue": "blob"
+		},
+		"adf-blob_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"stdemoaccountname.blob.core.windows.net"
+			]
+		},
+		"adf-dfs_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
+		},
+		"adf-dfs_properties_groupId": {
+			"type": "string",
+			"defaultValue": "dfs"
+		},
+		"adf-dfs_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"stdemoaccountname.dfs.core.windows.net"
+			]
+		},
+		"adf-sql_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Sql/servers/dev-demo-sql-server"
+		},
+		"adf-sql_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"adf-sql_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"dev-demo-sql-server.database.windows.net"
+			]
+		},
+		"adf-vault_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.KeyVault/vaults/DEVkeyvaultdemo"
+		},
+		"adf-vault_properties_groupId": {
+			"type": "string",
+			"defaultValue": "vault"
+		},
+		"adf-vault_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"devkeyvaultdemo.vault.azure.net"
+			]
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DEVdatafactorydemouknj_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS-adf-to-adls_properties_typeProperties_url": {
+						"value": "[parameters('LS-adf-to-adls_properties_typeProperties_url')]"
+					},
+					"adf-blob_properties_privateLinkResourceId": {
+						"value": "[parameters('adf-blob_properties_privateLinkResourceId')]"
+					},
+					"adf-blob_properties_groupId": {
+						"value": "[parameters('adf-blob_properties_groupId')]"
+					},
+					"adf-blob_properties_fqdns": {
+						"value": "[parameters('adf-blob_properties_fqdns')]"
+					},
+					"adf-dfs_properties_privateLinkResourceId": {
+						"value": "[parameters('adf-dfs_properties_privateLinkResourceId')]"
+					},
+					"adf-dfs_properties_groupId": {
+						"value": "[parameters('adf-dfs_properties_groupId')]"
+					},
+					"adf-dfs_properties_fqdns": {
+						"value": "[parameters('adf-dfs_properties_fqdns')]"
+					},
+					"adf-sql_properties_privateLinkResourceId": {
+						"value": "[parameters('adf-sql_properties_privateLinkResourceId')]"
+					},
+					"adf-sql_properties_groupId": {
+						"value": "[parameters('adf-sql_properties_groupId')]"
+					},
+					"adf-sql_properties_fqdns": {
+						"value": "[parameters('adf-sql_properties_fqdns')]"
+					},
+					"adf-vault_properties_privateLinkResourceId": {
+						"value": "[parameters('adf-vault_properties_privateLinkResourceId')]"
+					},
+					"adf-vault_properties_groupId": {
+						"value": "[parameters('adf-vault_properties_groupId')]"
+					},
+					"adf-vault_properties_fqdns": {
+						"value": "[parameters('adf-vault_properties_fqdns')]"
+					},
+					"LS-adf-to-keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LS-adf-to-keyvault_properties_typeProperties_baseUrl')]"
+					},
+					"LS-adf-to-blob_sasUri": {
+						"value": "[parameters('LS-adf-to-blob_sasUri')]"
+					},
+					"LS-adf-to-blob_properties_typeProperties_sasToken_secretName": {
+						"value": "[parameters('LS-adf-to-blob_properties_typeProperties_sasToken_secretName')]"
+					},
+					"LS-adf-to-sql_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LS-adf-to-sql_properties_typeProperties_connectionString_secretName')]"
+					},
+					"trigger1_properties_ADLS_TO_SQL_parameters_config_name": {
+						"value": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_name')]"
+					},
+					"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
+						"value": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_folder')]"
+					},
+					"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
+						"value": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_file_path')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
