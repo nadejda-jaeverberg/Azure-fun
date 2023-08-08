@@ -1,0 +1,19 @@
+{
+	"name": "LS-adf-to-sql",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"secretName": "sqlConnString",
+				"store": {
+					"referenceName": "LS-adf-to-keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureKeyVaultSecret"
+			},
+			"tenant": ""
+		},
+		"annotations": []
+	}
+}
