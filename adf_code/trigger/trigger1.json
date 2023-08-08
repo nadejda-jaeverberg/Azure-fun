@@ -11,8 +11,7 @@
 				},
 				"parameters": {
 					"config_name": "product1.json",
-					"config_folder": "configs",
-					"file_path": "inbound/csv"
+					"config_folder": "configs"
 				}
 			}
 		],
