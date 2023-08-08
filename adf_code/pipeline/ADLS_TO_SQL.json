@@ -100,8 +100,13 @@
 			"config_folder": {
 				"type": "string"
 			},
-			"file_path": {
-				"type": "string"
+			"file_folder": {
+				"type": "string",
+				"defaultValue": "@triggerBody().folderPath"
+			},
+			"file_name": {
+				"type": "string",
+				"defaultValue": "@triggerBody().fileName"
 			}
 		},
 		"variables": {
