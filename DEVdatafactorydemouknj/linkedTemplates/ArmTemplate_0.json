@@ -421,7 +421,7 @@
 						"typeProperties": {
 							"variableName": "file_name",
 							"value": {
-								"value": "@pipeline().parameters.file_path",
+								"value": "@pipeline().parameters.file_name",
 								"type": "Expression"
 							}
 						}
@@ -466,6 +466,14 @@
 					},
 					"config_folder": {
 						"type": "string"
+					},
+					"file_folder": {
+						"type": "string",
+						"defaultValue": "@triggerBody().folderPath"
+					},
+					"file_name": {
+						"type": "string",
+						"defaultValue": "@triggerBody().fileName"
 					}
 				},
 				"variables": {
