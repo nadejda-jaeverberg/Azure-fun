@@ -27,22 +27,6 @@
 			"type": "string",
 			"defaultValue": "sqlConnString"
 		},
-		"trigger1_properties_ADLS_TO_SQL_parameters_config_name": {
-			"type": "string",
-			"defaultValue": "product1.json"
-		},
-		"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
-			"type": "string",
-			"defaultValue": "configs"
-		},
-		"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
-			"type": "string",
-			"defaultValue": "@triggerBody(). folderPath"
-		},
-		"trigger1_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
-		},
 		"adf-blob_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
@@ -98,6 +82,18 @@
 			"defaultValue": [
 				"devkeyvaultdemo.vault.azure.net"
 			]
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_name": {
+			"type": "string",
+			"defaultValue": "product1.json"
+		},
+		"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
+			"type": "string",
+			"defaultValue": "configs"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
 		},
 		"containerUri": {
 			"type": "string",
@@ -182,9 +178,6 @@
 					},
 					"trigger1_properties_ADLS_TO_SQL_parameters_config_folder": {
 						"value": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_folder')]"
-					},
-					"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
-						"value": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_file_path')]"
 					},
 					"trigger1_properties_typeProperties_scope": {
 						"value": "[parameters('trigger1_properties_typeProperties_scope')]"

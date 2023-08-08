@@ -91,10 +91,6 @@
 			"type": "string",
 			"defaultValue": "configs"
 		},
-		"trigger1_properties_ADLS_TO_SQL_parameters_file_path": {
-			"type": "string",
-			"defaultValue": "@triggerBody(). folderPath"
-		},
 		"trigger1_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname"
@@ -470,9 +466,6 @@
 					},
 					"config_folder": {
 						"type": "string"
-					},
-					"file_path": {
-						"type": "string"
 					}
 				},
 				"variables": {
@@ -565,8 +558,7 @@
 						},
 						"parameters": {
 							"config_name": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_name')]",
-							"config_folder": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_folder')]",
-							"file_path": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_file_path')]"
+							"config_folder": "[parameters('trigger1_properties_ADLS_TO_SQL_parameters_config_folder')]"
 						}
 					}
 				],
