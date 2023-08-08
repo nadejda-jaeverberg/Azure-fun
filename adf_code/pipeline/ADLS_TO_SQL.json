@@ -1,0 +1,516 @@
+{
+    "name": "ADLS_TO_SQL",
+    "properties": {
+        "activities": [
+            {
+                "name": "Read_config",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "Insert_to_audit_table",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "JsonSource",
+                        "storeSettings": {
+                            "type": "AzureBlobFSReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "JsonReadSettings"
+                        }
+                    },
+                    "dataset": {
+                        "referenceName": "DS_Json",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "container_name": {
+                                "value": "@pipeline().globalParameters.configcontainer",
+                                "type": "Expression"
+                            },
+                            "folder_name": {
+                                "value": "@pipeline().parameters.config_folder",
+                                "type": "Expression"
+                            },
+                            "file_name": {
+                                "value": "@pipeline().parameters.config_name",
+                                "type": "Expression"
+                            }
+                        }
+                    },
+                    "firstRowOnly": false
+                }
+            },
+            {
+                "name": "Set file_config",
+                "type": "Filter",
+                "dependsOn": [
+                    {
+                        "activity": "Read_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "items": {
+                        "value": "@activity('Read_config').output.value[0].possible_files",
+                        "type": "Expression"
+                    },
+                    "condition": {
+                        "value": "@startswith(pipeline().parameters.file_name, item().file_starts_with)",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "Update_audit_set_config",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "Set file_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "sqlReaderStoredProcedureName": "[dbo].[update_audit]",
+                        "storedProcedureParameters": {
+                            "curr_ts": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@utcNow()",
+                                    "type": "Expression"
+                                }
+                            },
+                            "processing_step": {
+                                "type": "String",
+                                "value": "Config set"
+                            },
+                            "run_id": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@pipeline().RunId",
+                                    "type": "Expression"
+                                }
+                            },
+                            "step_status": {
+                                "type": "String",
+                                "value": "Success"
+                            }
+                        },
+                        "queryTimeout": "02:00:00",
+                        "partitionOption": "None"
+                    },
+                    "dataset": {
+                        "referenceName": "DS_AzureSqlTable",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "schema_name": {
+                                "value": "@activity('Read_config').output.value[0].audit_table_schema",
+                                "type": "Expression"
+                            },
+                            "table_name": {
+                                "value": "@activity('Read_config').output.value[0].audit_table_name",
+                                "type": "Expression"
+                            }
+                        }
+                    },
+                    "firstRowOnly": true
+                }
+            },
+            {
+                "name": "Insert_to_audit_table",
+                "type": "Lookup",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "sqlReaderStoredProcedureName": "[dbo].[insert_audit]",
+                        "storedProcedureParameters": {
+                            "curr_ts": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@{utcNow()}",
+                                    "type": "Expression"
+                                }
+                            },
+                            "f_name": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@pipeline().parameters.file_name",
+                                    "type": "Expression"
+                                }
+                            },
+                            "run_id": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@{pipeline().RunId}",
+                                    "type": "Expression"
+                                }
+                            },
+                            "start_ts": {
+                                "type": "String",
+                                "value": {
+                                    "value": "@{utcNow()}",
+                                    "type": "Expression"
+                                }
+                            }
+                        },
+                        "queryTimeout": "02:00:00",
+                        "partitionOption": "None"
+                    },
+                    "dataset": {
+                        "referenceName": "DS_AzureSqlTable",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "schema_name": "AuditData",
+                            "table_name": "Audit_table"
+                        }
+                    },
+                    "firstRowOnly": true
+                }
+            },
+            {
+                "name": "Copy data",
+                "type": "Copy",
+                "dependsOn": [
+                    {
+                        "activity": "Set first_row_as_header",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    },
+                    {
+                        "activity": "Set null_value",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    },
+                    {
+                        "activity": "Set data_schema_name",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    },
+                    {
+                        "activity": "Set data_table_name",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    },
+                    {
+                        "activity": "Read_mapping",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [
+                    {
+                        "name": "Source",
+                        "value": "@{pipeline().globalParameters.datacontainer}/@{replace(pipeline().parameters.file_folder,pipeline().globalParameters.datacontainer, '')}/@{pipeline().parameters.file_name}"
+                    },
+                    {
+                        "name": "Destination",
+                        "value": "@{activity('Set file_config').output.value[0].sink_table_schema}.@{activity('Set file_config').output.value[0].sink_table_name}"
+                    }
+                ],
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureBlobFSReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureSqlSink",
+                        "writeBehavior": "insert",
+                        "sqlWriterUseTableLock": false
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "value": "@json(string(activity('Read_mapping').output.value[0]))",
+                        "type": "Expression"
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "DS_DelimitedText",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "data_container": {
+                                "value": "@pipeline().globalParameters.datacontainer",
+                                "type": "Expression"
+                            },
+                            "folder_name": {
+                                "value": "@replace(pipeline().parameters.file_folder, pipeline().globalParameters.datacontainer, '')",
+                                "type": "Expression"
+                            },
+                            "file_name": {
+                                "value": "@pipeline().parameters.file_name",
+                                "type": "Expression"
+                            },
+                            "compression_type": "None",
+                            "compression_lvl": "Optimal",
+                            "column_delimiter": ",",
+                            "encoding": "UTF-8",
+                            "quote_character": "\"",
+                            "escape_character": "\\",
+                            "first_row_as_header": {
+                                "value": "@variables('first_row_as_header')",
+                                "type": "Expression"
+                            },
+                            "null_value": {
+                                "value": "@variables('null_value')",
+                                "type": "Expression"
+                            }
+                        }
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "DS_AzureSqlTable",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "schema_name": {
+                                "value": "@variables('data_schema_name')",
+                                "type": "Expression"
+                            },
+                            "table_name": {
+                                "value": "@variables('data_table_name')",
+                                "type": "Expression"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Set first_row_as_header",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Update_audit_set_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "first_row_as_header",
+                    "value": {
+                        "value": "@bool(activity('Set file_config').output.value[0].first_row_as_header)",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "Set null_value",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Update_audit_set_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "null_value",
+                    "value": {
+                        "value": "@activity('Set file_config').output.value[0].null_value",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "Set data_schema_name",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Update_audit_set_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "data_schema_name",
+                    "value": {
+                        "value": "@activity('Set file_config').output.value[0].sink_table_schema",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "Set data_table_name",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "Update_audit_set_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "data_table_name",
+                    "value": {
+                        "value": "@activity('Set file_config').output.value[0].sink_table_name",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "Read_mapping",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "Update_audit_set_config",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "JsonSource",
+                        "storeSettings": {
+                            "type": "AzureBlobFSReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "JsonReadSettings"
+                        }
+                    },
+                    "dataset": {
+                        "referenceName": "DS_Json",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "container_name": {
+                                "value": "@pipeline().globalParameters.configcontainer",
+                                "type": "Expression"
+                            },
+                            "folder_name": {
+                                "value": "@pipeline().parameters.config_folder",
+                                "type": "Expression"
+                            },
+                            "file_name": {
+                                "value": "@activity('Set file_config').output.value[0].file_mapping",
+                                "type": "Expression"
+                            }
+                        }
+                    },
+                    "firstRowOnly": false
+                }
+            }
+        ],
+        "parameters": {
+            "config_name": {
+                "type": "string"
+            },
+            "config_folder": {
+                "type": "string"
+            },
+            "file_folder": {
+                "type": "string"
+            },
+            "file_name": {
+                "type": "string"
+            }
+        },
+        "variables": {
+            "first_row_as_header": {
+                "type": "Boolean"
+            },
+            "null_value": {
+                "type": "String"
+            },
+            "data_schema_name": {
+                "type": "String",
+                "defaultValue": "TestData"
+            },
+            "data_table_name": {
+                "type": "String",
+                "defaultValue": "Course"
+            }
+        },
+        "annotations": [],
+        "lastPublishTime": "2023-08-08T17:13:55Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
