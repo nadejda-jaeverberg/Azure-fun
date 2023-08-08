@@ -58,7 +58,7 @@
 				"typeProperties": {
 					"variableName": "file_name",
 					"value": {
-						"value": "@pipeline().parameters.file_path",
+						"value": "@pipeline().parameters.file_name",
 						"type": "Expression"
 					}
 				}
