@@ -11,8 +11,7 @@
 				},
 				"parameters": {
 					"config_name": "product1.json",
-					"config_folder": "configs",
-					"file_path": "@trigger().file_path"
+					"config_folder": "configs"
 				}
 			}
 		],
