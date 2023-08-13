@@ -1,28 +1,30 @@
 {
-	"name": "trigger1",
-	"properties": {
-		"annotations": [],
-		"runtimeState": "Started",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "ADLS_TO_SQL",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"config_name": "product1.json",
-					"config_folder": "configs"
-				}
-			}
-		],
-		"type": "BlobEventsTrigger",
-		"typeProperties": {
-			"blobPathBeginsWith": "/data-extracts/blobs/inbound/simple_csv_file",
-			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname",
-			"events": [
-				"Microsoft.Storage.BlobCreated"
-			]
-		}
-	}
+    "name": "trigger1",
+    "properties": {
+        "annotations": [],
+        "runtimeState": "Started",
+        "pipelines": [
+            {
+                "pipelineReference": {
+                    "referenceName": "ADLS_TO_SQL",
+                    "type": "PipelineReference"
+                },
+                "parameters": {
+                    "config_name": "product1.json",
+                    "config_folder": "configs",
+                    "file_folder": "@triggerBody().folderPath",
+                    "file_name": "@triggerBody().fileName"
+                }
+            }
+        ],
+        "type": "BlobEventsTrigger",
+        "typeProperties": {
+            "blobPathBeginsWith": "/data-extracts/blobs/inbound/simple_csv_file",
+            "ignoreEmptyBlobs": true,
+            "scope": "/subscriptions/49900154-e91f-4814-9858-cdbd513a3db1/resourceGroups/DEVmyDemoResourceGroup/providers/Microsoft.Storage/storageAccounts/stdemoaccountname",
+            "events": [
+                "Microsoft.Storage.BlobCreated"
+            ]
+        }
+    }
 }
